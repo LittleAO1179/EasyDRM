@@ -1,0 +1,3 @@
+D:\msys64\clang64\bin\cmake.exe -E rm -f CMakeFiles\EasyDRM.dir/objects.a
+D:\msys64\ucrt64\bin\ar.exe qc CMakeFiles\EasyDRM.dir/objects.a @CMakeFiles\EasyDRM.dir\objects1.rsp
+D:\msys64\ucrt64\bin\c++.exe -g -mwindows -Wl,--whole-archive CMakeFiles\EasyDRM.dir/objects.a -Wl,--no-whole-archive -o EasyDRM.exe -Wl,--out-implib,libEasyDRM.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\EasyDRM.dir\linkLibs.rsp

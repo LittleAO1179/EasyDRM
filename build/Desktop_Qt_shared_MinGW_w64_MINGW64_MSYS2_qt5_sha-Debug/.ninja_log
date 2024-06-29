@@ -1,0 +1,10 @@
+# ninja log v6
+18	131	7413701374968026	D:/OneDrive/Program/Cpp/EasyDRM/build/Desktop_Qt_shared_MinGW_w64_MINGW64_MSYS2_qt5_sha-Debug/CMakeFiles/cmake.verify_globs	e64449f8d3e73edb
+136	907	7413701382877712	EasyDRM_autogen/timestamp	4d156d71f63decc
+136	907	7413701382877712	EasyDRM_autogen/mocs_compilation.cpp	4d156d71f63decc
+136	907	7413701382877712	D:/OneDrive/Program/Cpp/EasyDRM/build/Desktop_Qt_shared_MinGW_w64_MINGW64_MSYS2_qt5_sha-Debug/EasyDRM_autogen/timestamp	4d156d71f63decc
+136	907	7413701382877712	D:/OneDrive/Program/Cpp/EasyDRM/build/Desktop_Qt_shared_MinGW_w64_MINGW64_MSYS2_qt5_sha-Debug/EasyDRM_autogen/mocs_compilation.cpp	4d156d71f63decc
+914	2655	7413701383924028	CMakeFiles/EasyDRM.dir/EasyDRM_autogen/mocs_compilation.cpp.obj	b688632d6551c012
+921	2792	7413701383998282	CMakeFiles/EasyDRM.dir/mainwindow.cpp.obj	cecb33d30de0f5e5
+918	2840	7413701383964131	CMakeFiles/EasyDRM.dir/main.cpp.obj	1c53c4e3d794fe4e
+2840	3071	7413701403179407	EasyDRM.exe	7e18ecb6f573fdfa
