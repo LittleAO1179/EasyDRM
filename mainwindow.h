@@ -7,6 +7,8 @@
 #include <qlineedit.h>
 #include <qobject.h>
 #include <qpushbutton.h>
+#include <qstyle.h>
+#include <qtabwidget.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,12 +25,14 @@ public:
     ~MainWindow();
 
     void OnComboBoxValueChanged(QComboBox*& comboBox, QLineEdit*& lineEdit, QLabel*& label);
+    void OnTabValueChanged(QTabWidget*& tabWidget);
 
-    void SetSelectFile(QPushButton*& button);
-    void SetSaveFile(QPushButton*& button, QLineEdit*& lineEdit);
+    void SetSelectFile(QPushButton*& button, QString extension);
+    void SetSaveFile(QPushButton*& button, QLineEdit*& lineEdit, QString extension);
     void SetGenerateKey(QPushButton*& button, QLineEdit*& lineEdit, QComboBox*& comboBox);
     void SetClipBroad(QPushButton*& button, QLineEdit*& lineEdit);
     void SetEncrypt(QPushButton*& button);
+    void SetDecrypt(QPushButton*& button);
     void SetKeyWriteToFile(QPushButton*& button);
 
 private:

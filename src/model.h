@@ -20,6 +20,8 @@ public:
         return instance;
     }
 
+    void clear();
+
     void SetSavePath(const QString& path);
     const QString& GetSavePath() const;
 
@@ -30,9 +32,13 @@ public:
     std::unique_ptr<unsigned char[]>& GetKey();
     const size_t& GetKeySize() const;
 
+    void SetFileExtension(const QString& extension);
+    const QString& GetFileExtension() const;
+
 private:
     QString mSavePath;
     QString mChoosePath;
+    QString mFileExtension;
 
     std::unique_ptr<unsigned char[]> mKey;
     size_t mKeySize;

@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 #include "model.h"
 #include "encrypt_func.h"
+#include "decrypt_func.h"
 
 
 #include <qclipboard.h>
@@ -16,7 +17,7 @@
 #include <QFileDialog>
 #include <qmessagebox>
 #include <QClipboard>
-#include <string>
+#include <qtabwidget.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -24,20 +25,35 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     this->setWindowTitle("EasyDRM By LiMingyang");
-    SetSelectFile(ui->pushButton);
-    SetSaveFile(ui->pushButton_5, ui->lineEdit);
+    // 加密
+    SetSelectFile(ui->pushButton, "ALL *.*");
+    SetSaveFile(ui->pushButton_5, ui->lineEdit, "*.easyDRM");
     SetGenerateKey(ui->pushButton_4, ui->lineEdit_2, ui->comboBox);
     SetClipBroad(ui->pushButton_3, ui->lineEdit_2);
     SetEncrypt(ui->pushButton_2);
+    SetDecrypt(ui->pushButton_9);
     SetKeyWriteToFile(ui->pushButton_6);
 
+    // 解密
+    SetSelectFile(ui->pushButton_7, "*.easyDRM*");
+    SetSaveFile(ui->pushButton_8, ui->lineEdit_3, Model::getInstance().GetFileExtension());
+
     OnComboBoxValueChanged(ui->comboBox, ui->lineEdit_2, ui->label_7);
+    OnTabValueChanged(ui->tabWidget);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::OnTabValueChanged(QTabWidget*& tabWidget)
+{
+    connect(tabWidget, &QTabWidget::currentChanged, [this](){
+        Model::getInstance().clear();
+    });
+}
+
 
 void MainWindow::OnComboBoxValueChanged(QComboBox*& comboBox, QLineEdit*& lineEdit, QLabel*& label)
 {
@@ -69,6 +85,52 @@ void MainWindow::SetKeyWriteToFile(QPushButton*& button)
         else 
         {
             QMessageBox::warning(this, "保存失败", "请确保正确生成密钥后保存。");
+        }
+    });
+}
+
+void MainWindow::SetDecrypt(QPushButton*& button)
+{
+    connect(button, &QPushButton::clicked, [this]()
+    {
+        if (ui->lineEdit_4->text().isEmpty())
+        {
+            QMessageBox::information(this, "注意", "密钥不能为空，请填写密钥！");
+            return;
+        }
+
+        if (Model::getInstance().GetSavePath().isEmpty() || Model::getInstance().GetChoosePath().isEmpty())
+        {
+            QMessageBox::information(this, "注意", "输入和输出路径不能为空！");
+            return;
+        }
+
+        QString hexText = ui->lineEdit_4->text();
+        QByteArray qKey = QByteArray::fromHex(hexText.toUtf8());
+        Model::getInstance().SetKey(reinterpret_cast<unsigned char*>(qKey.data()), qKey.size());
+
+        bool flag = true;
+        switch (ui->comboBox->currentIndex()) 
+        {
+            case 0:
+            // AES
+            {
+                flag = Decrypt::DecryptByAESKey(Model::getInstance().GetChoosePath(), Model::getInstance().GetSavePath(), Model::getInstance().GetKey().get());
+                break;
+            }
+            // case 1:
+            // {
+            //     flag = Encrypt::EncryptByDESKey(Model::getInstance().GetChoosePath(), Model::getInstance().GetSavePath(), Model::getInstance().GetKey().get());
+            //     break;
+            // }
+        }
+        if (flag)
+        {
+            QMessageBox::information(this, "解密成功","文件解密成功，解密文件存储在" + Model::getInstance().GetSavePath());
+        }
+        else
+        {
+            QMessageBox::warning(this, "解密失败", "解密失败，请重新尝试。");
         }
     });
 }
@@ -166,11 +228,11 @@ void MainWindow::SetGenerateKey(QPushButton*& button, QLineEdit*& lineEdit, QCom
     });
 }
 
-void MainWindow::SetSelectFile(QPushButton*& button)
+void MainWindow::SetSelectFile(QPushButton*& button, QString extension)
 {
-    connect(button, &QPushButton::clicked, [this, button]()
+    connect(button, &QPushButton::clicked, [this, button, extension]()
     {
-        QString fileName = QFileDialog::getOpenFileName(this, tr("打开文件"), "", tr("All Files (*.*)"));
+        QString fileName = QFileDialog::getOpenFileName(this, tr("打开文件"), "", extension);
         if (!fileName.isEmpty()) 
         {
             Model::getInstance().SetChoosePath(fileName);
@@ -179,12 +241,12 @@ void MainWindow::SetSelectFile(QPushButton*& button)
     });
 }
 
-void MainWindow::SetSaveFile(QPushButton*& button, QLineEdit*& lineEdit)
+void MainWindow::SetSaveFile(QPushButton*& button, QLineEdit*& lineEdit, QString extension)
 {
 
-    connect(button, &QPushButton::clicked, [this, lineEdit]()
+    connect(button, &QPushButton::clicked, [this, lineEdit, extension]()
     {
-        QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "", tr("*.easyDRM"));
+        QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "", extension);
         if (!fileName.isEmpty())
         {
             Model::getInstance().SetSavePath(fileName);

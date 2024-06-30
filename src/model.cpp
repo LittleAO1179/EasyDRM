@@ -1,8 +1,9 @@
 #include "model.h"
 #include <algorithm>
 #include <cstddef>
+#include <qobject.h>
 
-Model::Model()
+Model::Model():mFileExtension("ALL File *.*")
 {
 
 }
@@ -47,4 +48,23 @@ std::unique_ptr<unsigned char[]>& Model::GetKey()
 const size_t& Model::GetKeySize() const
 {
     return mKeySize;
+}
+
+void Model::SetFileExtension(const QString& extension)
+{
+    mFileExtension = extension;
+}
+
+const QString& Model::GetFileExtension() const
+{
+    return mFileExtension;
+}
+
+void Model::clear()
+{
+    mSavePath.clear();
+    mChoosePath.clear();
+    mKey = std::unique_ptr<unsigned char[]>();
+    mKeySize = 0;
+    mFileExtension = "ALL File *.*";
 }
