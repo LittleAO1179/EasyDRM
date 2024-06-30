@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/EasyDRM.dir/main.cpp.obj.d"
   "CMakeFiles/EasyDRM.dir/mainwindow.cpp.obj"
   "CMakeFiles/EasyDRM.dir/mainwindow.cpp.obj.d"
+  "CMakeFiles/EasyDRM.dir/src/model.cpp.obj"
+  "CMakeFiles/EasyDRM.dir/src/model.cpp.obj.d"
   "CMakeFiles/EasyDRM_autogen.dir/AutogenUsed.txt"
   "CMakeFiles/EasyDRM_autogen.dir/ParseCache.txt"
   "EasyDRM_autogen"

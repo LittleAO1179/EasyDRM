@@ -80,51 +80,67 @@ CMakeFiles/EasyDRM.dir/EasyDRM_autogen/mocs_compilation.cpp.obj: CMakeFiles/Easy
 CMakeFiles/EasyDRM.dir/EasyDRM_autogen/mocs_compilation.cpp.obj: EasyDRM_autogen/mocs_compilation.cpp
 CMakeFiles/EasyDRM.dir/EasyDRM_autogen/mocs_compilation.cpp.obj: CMakeFiles/EasyDRM.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\OneDrive\Program\Cpp\EasyDRM\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/EasyDRM.dir/EasyDRM_autogen/mocs_compilation.cpp.obj"
-	D:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/EasyDRM.dir/EasyDRM_autogen/mocs_compilation.cpp.obj -MF CMakeFiles\EasyDRM.dir\EasyDRM_autogen\mocs_compilation.cpp.obj.d -o CMakeFiles\EasyDRM.dir\EasyDRM_autogen\mocs_compilation.cpp.obj -c D:\OneDrive\Program\Cpp\EasyDRM\build\EasyDRM_autogen\mocs_compilation.cpp
+	D:\msys64\clang64\bin\clang++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/EasyDRM.dir/EasyDRM_autogen/mocs_compilation.cpp.obj -MF CMakeFiles\EasyDRM.dir\EasyDRM_autogen\mocs_compilation.cpp.obj.d -o CMakeFiles\EasyDRM.dir\EasyDRM_autogen\mocs_compilation.cpp.obj -c D:\OneDrive\Program\Cpp\EasyDRM\build\EasyDRM_autogen\mocs_compilation.cpp
 
 CMakeFiles/EasyDRM.dir/EasyDRM_autogen/mocs_compilation.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/EasyDRM.dir/EasyDRM_autogen/mocs_compilation.cpp.i"
-	D:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\OneDrive\Program\Cpp\EasyDRM\build\EasyDRM_autogen\mocs_compilation.cpp > CMakeFiles\EasyDRM.dir\EasyDRM_autogen\mocs_compilation.cpp.i
+	D:\msys64\clang64\bin\clang++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\OneDrive\Program\Cpp\EasyDRM\build\EasyDRM_autogen\mocs_compilation.cpp > CMakeFiles\EasyDRM.dir\EasyDRM_autogen\mocs_compilation.cpp.i
 
 CMakeFiles/EasyDRM.dir/EasyDRM_autogen/mocs_compilation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/EasyDRM.dir/EasyDRM_autogen/mocs_compilation.cpp.s"
-	D:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\OneDrive\Program\Cpp\EasyDRM\build\EasyDRM_autogen\mocs_compilation.cpp -o CMakeFiles\EasyDRM.dir\EasyDRM_autogen\mocs_compilation.cpp.s
+	D:\msys64\clang64\bin\clang++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\OneDrive\Program\Cpp\EasyDRM\build\EasyDRM_autogen\mocs_compilation.cpp -o CMakeFiles\EasyDRM.dir\EasyDRM_autogen\mocs_compilation.cpp.s
 
 CMakeFiles/EasyDRM.dir/main.cpp.obj: CMakeFiles/EasyDRM.dir/flags.make
 CMakeFiles/EasyDRM.dir/main.cpp.obj: CMakeFiles/EasyDRM.dir/includes_CXX.rsp
 CMakeFiles/EasyDRM.dir/main.cpp.obj: D:/OneDrive/Program/Cpp/EasyDRM/main.cpp
 CMakeFiles/EasyDRM.dir/main.cpp.obj: CMakeFiles/EasyDRM.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\OneDrive\Program\Cpp\EasyDRM\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/EasyDRM.dir/main.cpp.obj"
-	D:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/EasyDRM.dir/main.cpp.obj -MF CMakeFiles\EasyDRM.dir\main.cpp.obj.d -o CMakeFiles\EasyDRM.dir\main.cpp.obj -c D:\OneDrive\Program\Cpp\EasyDRM\main.cpp
+	D:\msys64\clang64\bin\clang++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/EasyDRM.dir/main.cpp.obj -MF CMakeFiles\EasyDRM.dir\main.cpp.obj.d -o CMakeFiles\EasyDRM.dir\main.cpp.obj -c D:\OneDrive\Program\Cpp\EasyDRM\main.cpp
 
 CMakeFiles/EasyDRM.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/EasyDRM.dir/main.cpp.i"
-	D:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\OneDrive\Program\Cpp\EasyDRM\main.cpp > CMakeFiles\EasyDRM.dir\main.cpp.i
+	D:\msys64\clang64\bin\clang++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\OneDrive\Program\Cpp\EasyDRM\main.cpp > CMakeFiles\EasyDRM.dir\main.cpp.i
 
 CMakeFiles/EasyDRM.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/EasyDRM.dir/main.cpp.s"
-	D:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\OneDrive\Program\Cpp\EasyDRM\main.cpp -o CMakeFiles\EasyDRM.dir\main.cpp.s
+	D:\msys64\clang64\bin\clang++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\OneDrive\Program\Cpp\EasyDRM\main.cpp -o CMakeFiles\EasyDRM.dir\main.cpp.s
 
 CMakeFiles/EasyDRM.dir/mainwindow.cpp.obj: CMakeFiles/EasyDRM.dir/flags.make
 CMakeFiles/EasyDRM.dir/mainwindow.cpp.obj: CMakeFiles/EasyDRM.dir/includes_CXX.rsp
 CMakeFiles/EasyDRM.dir/mainwindow.cpp.obj: D:/OneDrive/Program/Cpp/EasyDRM/mainwindow.cpp
 CMakeFiles/EasyDRM.dir/mainwindow.cpp.obj: CMakeFiles/EasyDRM.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\OneDrive\Program\Cpp\EasyDRM\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/EasyDRM.dir/mainwindow.cpp.obj"
-	D:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/EasyDRM.dir/mainwindow.cpp.obj -MF CMakeFiles\EasyDRM.dir\mainwindow.cpp.obj.d -o CMakeFiles\EasyDRM.dir\mainwindow.cpp.obj -c D:\OneDrive\Program\Cpp\EasyDRM\mainwindow.cpp
+	D:\msys64\clang64\bin\clang++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/EasyDRM.dir/mainwindow.cpp.obj -MF CMakeFiles\EasyDRM.dir\mainwindow.cpp.obj.d -o CMakeFiles\EasyDRM.dir\mainwindow.cpp.obj -c D:\OneDrive\Program\Cpp\EasyDRM\mainwindow.cpp
 
 CMakeFiles/EasyDRM.dir/mainwindow.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/EasyDRM.dir/mainwindow.cpp.i"
-	D:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\OneDrive\Program\Cpp\EasyDRM\mainwindow.cpp > CMakeFiles\EasyDRM.dir\mainwindow.cpp.i
+	D:\msys64\clang64\bin\clang++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\OneDrive\Program\Cpp\EasyDRM\mainwindow.cpp > CMakeFiles\EasyDRM.dir\mainwindow.cpp.i
 
 CMakeFiles/EasyDRM.dir/mainwindow.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/EasyDRM.dir/mainwindow.cpp.s"
-	D:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\OneDrive\Program\Cpp\EasyDRM\mainwindow.cpp -o CMakeFiles\EasyDRM.dir\mainwindow.cpp.s
+	D:\msys64\clang64\bin\clang++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\OneDrive\Program\Cpp\EasyDRM\mainwindow.cpp -o CMakeFiles\EasyDRM.dir\mainwindow.cpp.s
+
+CMakeFiles/EasyDRM.dir/src/model.cpp.obj: CMakeFiles/EasyDRM.dir/flags.make
+CMakeFiles/EasyDRM.dir/src/model.cpp.obj: CMakeFiles/EasyDRM.dir/includes_CXX.rsp
+CMakeFiles/EasyDRM.dir/src/model.cpp.obj: D:/OneDrive/Program/Cpp/EasyDRM/src/model.cpp
+CMakeFiles/EasyDRM.dir/src/model.cpp.obj: CMakeFiles/EasyDRM.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\OneDrive\Program\Cpp\EasyDRM\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/EasyDRM.dir/src/model.cpp.obj"
+	D:\msys64\clang64\bin\clang++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/EasyDRM.dir/src/model.cpp.obj -MF CMakeFiles\EasyDRM.dir\src\model.cpp.obj.d -o CMakeFiles\EasyDRM.dir\src\model.cpp.obj -c D:\OneDrive\Program\Cpp\EasyDRM\src\model.cpp
+
+CMakeFiles/EasyDRM.dir/src/model.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/EasyDRM.dir/src/model.cpp.i"
+	D:\msys64\clang64\bin\clang++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\OneDrive\Program\Cpp\EasyDRM\src\model.cpp > CMakeFiles\EasyDRM.dir\src\model.cpp.i
+
+CMakeFiles/EasyDRM.dir/src/model.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/EasyDRM.dir/src/model.cpp.s"
+	D:\msys64\clang64\bin\clang++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\OneDrive\Program\Cpp\EasyDRM\src\model.cpp -o CMakeFiles\EasyDRM.dir\src\model.cpp.s
 
 # Object files for target EasyDRM
 EasyDRM_OBJECTS = \
 "CMakeFiles/EasyDRM.dir/EasyDRM_autogen/mocs_compilation.cpp.obj" \
 "CMakeFiles/EasyDRM.dir/main.cpp.obj" \
-"CMakeFiles/EasyDRM.dir/mainwindow.cpp.obj"
+"CMakeFiles/EasyDRM.dir/mainwindow.cpp.obj" \
+"CMakeFiles/EasyDRM.dir/src/model.cpp.obj"
 
 # External object files for target EasyDRM
 EasyDRM_EXTERNAL_OBJECTS =
@@ -132,6 +148,7 @@ EasyDRM_EXTERNAL_OBJECTS =
 EasyDRM.exe: CMakeFiles/EasyDRM.dir/EasyDRM_autogen/mocs_compilation.cpp.obj
 EasyDRM.exe: CMakeFiles/EasyDRM.dir/main.cpp.obj
 EasyDRM.exe: CMakeFiles/EasyDRM.dir/mainwindow.cpp.obj
+EasyDRM.exe: CMakeFiles/EasyDRM.dir/src/model.cpp.obj
 EasyDRM.exe: CMakeFiles/EasyDRM.dir/build.make
 EasyDRM.exe: D:/msys64/clang64/lib/libQt6Widgets.dll.a
 EasyDRM.exe: D:/msys64/clang64/lib/libQt6Gui.dll.a
@@ -140,7 +157,7 @@ EasyDRM.exe: D:/msys64/clang64/lib/libQt6EntryPoint.a
 EasyDRM.exe: CMakeFiles/EasyDRM.dir/linkLibs.rsp
 EasyDRM.exe: CMakeFiles/EasyDRM.dir/objects1.rsp
 EasyDRM.exe: CMakeFiles/EasyDRM.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\OneDrive\Program\Cpp\EasyDRM\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable EasyDRM.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\OneDrive\Program\Cpp\EasyDRM\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable EasyDRM.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\EasyDRM.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

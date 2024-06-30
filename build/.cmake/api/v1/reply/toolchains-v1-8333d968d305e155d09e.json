@@ -5,50 +5,43 @@
 		{
 			"compiler" : 
 			{
-				"id" : "GNU",
+				"id" : "Clang",
 				"implicit" : 
 				{
 					"includeDirectories" : 
 					[
-						"D:/msys64/ucrt64/include/c++/13.2.0",
-						"D:/msys64/ucrt64/include/c++/13.2.0/x86_64-w64-mingw32",
-						"D:/msys64/ucrt64/include/c++/13.2.0/backward",
-						"D:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/13.2.0/include",
-						"D:/msys64/ucrt64/include",
-						"D:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/13.2.0/include-fixed"
+						"D:/msys64/clang64/include/c++/v1",
+						"D:/msys64/clang64/lib/clang/18/include",
+						"D:/msys64/clang64/include"
 					],
 					"linkDirectories" : 
 					[
-						"D:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/13.2.0",
-						"D:/msys64/ucrt64/lib/gcc",
-						"D:/msys64/ucrt64/x86_64-w64-mingw32/lib",
-						"D:/msys64/ucrt64/lib"
+						"D:/msys64/clang64/x86_64-w64-mingw32/lib",
+						"D:/msys64/clang64/x86_64-w64-mingw32/mingw/lib",
+						"D:/msys64/clang64/lib",
+						"D:/msys64/clang64/lib/clang/18/lib/windows"
 					],
 					"linkFrameworkDirectories" : [],
 					"linkLibraries" : 
 					[
-						"stdc++",
+						"c++",
 						"mingw32",
-						"gcc_s",
-						"gcc",
+						"unwind",
 						"moldname",
 						"mingwex",
-						"kernel32",
-						"pthread",
 						"advapi32",
 						"shell32",
 						"user32",
 						"kernel32",
 						"mingw32",
-						"gcc_s",
-						"gcc",
+						"unwind",
 						"moldname",
 						"mingwex",
 						"kernel32"
 					]
 				},
-				"path" : "D:/msys64/ucrt64/bin/c++.exe",
-				"version" : "13.2.0"
+				"path" : "D:/msys64/clang64/bin/clang++.exe",
+				"version" : "18.1.4"
 			},
 			"language" : "CXX",
 			"sourceFileExtensions" : 
@@ -74,7 +67,7 @@
 			"compiler" : 
 			{
 				"implicit" : {},
-				"path" : "D:/msys64/ucrt64/bin/windres.exe"
+				"path" : "D:/msys64/clang64/bin/windres.exe"
 			},
 			"language" : "RC",
 			"sourceFileExtensions" : 

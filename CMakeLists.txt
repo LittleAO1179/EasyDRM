@@ -9,9 +9,16 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# QT相关
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 
+# OpenSSL
+find_package(OpenSSL REQUIRED)
+message(STATUS "OpenSSL include dir: ${OPENSSL_INCLUDE_DIR}")
+
+file(GLOB_RECURSE SRC_FILES "${PROJECT_SOURCE_DIR}/src/*.cpp")
+include_directories("${PROJECT_SOURCE_DIR}/src/")
 set(TS_FILES EasyDRM_zh_CN.ts)
 
 set(PROJECT_SOURCES
@@ -19,6 +26,7 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        ${SRC_FILES}
         ${TS_FILES}
 )
 

@@ -12,6 +12,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "D:/OneDrive/Program/Cpp/EasyDRM/build/EasyDRM_autogen/mocs_compilation.cpp" "CMakeFiles/EasyDRM.dir/EasyDRM_autogen/mocs_compilation.cpp.obj" "gcc" "CMakeFiles/EasyDRM.dir/EasyDRM_autogen/mocs_compilation.cpp.obj.d"
   "D:/OneDrive/Program/Cpp/EasyDRM/main.cpp" "CMakeFiles/EasyDRM.dir/main.cpp.obj" "gcc" "CMakeFiles/EasyDRM.dir/main.cpp.obj.d"
   "D:/OneDrive/Program/Cpp/EasyDRM/mainwindow.cpp" "CMakeFiles/EasyDRM.dir/mainwindow.cpp.obj" "gcc" "CMakeFiles/EasyDRM.dir/mainwindow.cpp.obj.d"
+  "D:/OneDrive/Program/Cpp/EasyDRM/src/model.cpp" "CMakeFiles/EasyDRM.dir/src/model.cpp.obj" "gcc" "CMakeFiles/EasyDRM.dir/src/model.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

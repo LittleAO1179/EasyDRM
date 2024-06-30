@@ -45,8 +45,12 @@ set(OLD_GLOB
   "D:/OneDrive/Program/Cpp/EasyDRM/build/Desktop_Qt_shared_MinGW_w64_MINGW64_MSYS2_qt5_sha-Debug/CMakeFiles/3.29.2/CompilerIdCXX/CMakeCXXCompilerId.cpp"
   "D:/OneDrive/Program/Cpp/EasyDRM/build/Desktop_Qt_shared_MinGW_w64_MINGW64_MSYS2_qt5_sha-Debug/EasyDRM_autogen/EWIEGA46WW/moc_mainwindow.cpp"
   "D:/OneDrive/Program/Cpp/EasyDRM/build/Desktop_Qt_shared_MinGW_w64_MINGW64_MSYS2_qt5_sha-Debug/EasyDRM_autogen/mocs_compilation.cpp"
+  "D:/OneDrive/Program/Cpp/EasyDRM/build/EasyDRM_autogen/EWIEGA46WW/moc_mainwindow.cpp"
+  "D:/OneDrive/Program/Cpp/EasyDRM/build/EasyDRM_autogen/mocs_compilation.cpp"
+  "D:/OneDrive/Program/Cpp/EasyDRM/build/MyProject_autogen/mocs_compilation.cpp"
   "D:/OneDrive/Program/Cpp/EasyDRM/main.cpp"
   "D:/OneDrive/Program/Cpp/EasyDRM/mainwindow.cpp"
+  "D:/OneDrive/Program/Cpp/EasyDRM/src/model.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")
@@ -67,7 +71,12 @@ file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "D:/OneDrive/Program/Cpp/EasyD
 set(OLD_GLOB
   "D:/OneDrive/Program/Cpp/EasyDRM/build/Desktop_Qt_shared_MinGW_w64_MINGW64_MSYS2_qt5_sha-Debug/EasyDRM_autogen/include/ui_mainwindow.h"
   "D:/OneDrive/Program/Cpp/EasyDRM/build/Desktop_Qt_shared_MinGW_w64_MINGW64_MSYS2_qt5_sha-Debug/EasyDRM_autogen/moc_predefs.h"
+  "D:/OneDrive/Program/Cpp/EasyDRM/build/EasyDRM_autogen/include/ui_mainwindow.h"
+  "D:/OneDrive/Program/Cpp/EasyDRM/build/EasyDRM_autogen/moc_predefs.h"
+  "D:/OneDrive/Program/Cpp/EasyDRM/build/MyProject_autogen/moc_predefs.h"
   "D:/OneDrive/Program/Cpp/EasyDRM/mainwindow.h"
+  "D:/OneDrive/Program/Cpp/EasyDRM/src/encrypt_func.h"
+  "D:/OneDrive/Program/Cpp/EasyDRM/src/model.h"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")

@@ -1,20 +1,26 @@
 [
 {
   "directory": "D:/OneDrive/Program/Cpp/EasyDRM/build",
-  "command": "D:\\msys64\\ucrt64\\bin\\c++.exe -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 @CMakeFiles/EasyDRM.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\EasyDRM.dir\\EasyDRM_autogen\\mocs_compilation.cpp.obj -c D:\\OneDrive\\Program\\Cpp\\EasyDRM\\build\\EasyDRM_autogen\\mocs_compilation.cpp",
+  "command": "D:\\msys64\\clang64\\bin\\clang++.exe -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 @CMakeFiles/EasyDRM.dir/includes_CXX.rsp -g -std=gnu++17 -pthread -o CMakeFiles\\EasyDRM.dir\\EasyDRM_autogen\\mocs_compilation.cpp.obj -c D:\\OneDrive\\Program\\Cpp\\EasyDRM\\build\\EasyDRM_autogen\\mocs_compilation.cpp",
   "file": "D:/OneDrive/Program/Cpp/EasyDRM/build/EasyDRM_autogen/mocs_compilation.cpp",
   "output": "CMakeFiles/EasyDRM.dir/EasyDRM_autogen/mocs_compilation.cpp.obj"
 },
 {
   "directory": "D:/OneDrive/Program/Cpp/EasyDRM/build",
-  "command": "D:\\msys64\\ucrt64\\bin\\c++.exe -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 @CMakeFiles/EasyDRM.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\EasyDRM.dir\\main.cpp.obj -c D:\\OneDrive\\Program\\Cpp\\EasyDRM\\main.cpp",
+  "command": "D:\\msys64\\clang64\\bin\\clang++.exe -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 @CMakeFiles/EasyDRM.dir/includes_CXX.rsp -g -std=gnu++17 -pthread -o CMakeFiles\\EasyDRM.dir\\main.cpp.obj -c D:\\OneDrive\\Program\\Cpp\\EasyDRM\\main.cpp",
   "file": "D:/OneDrive/Program/Cpp/EasyDRM/main.cpp",
   "output": "CMakeFiles/EasyDRM.dir/main.cpp.obj"
 },
 {
   "directory": "D:/OneDrive/Program/Cpp/EasyDRM/build",
-  "command": "D:\\msys64\\ucrt64\\bin\\c++.exe -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 @CMakeFiles/EasyDRM.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\EasyDRM.dir\\mainwindow.cpp.obj -c D:\\OneDrive\\Program\\Cpp\\EasyDRM\\mainwindow.cpp",
+  "command": "D:\\msys64\\clang64\\bin\\clang++.exe -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 @CMakeFiles/EasyDRM.dir/includes_CXX.rsp -g -std=gnu++17 -pthread -o CMakeFiles\\EasyDRM.dir\\mainwindow.cpp.obj -c D:\\OneDrive\\Program\\Cpp\\EasyDRM\\mainwindow.cpp",
   "file": "D:/OneDrive/Program/Cpp/EasyDRM/mainwindow.cpp",
   "output": "CMakeFiles/EasyDRM.dir/mainwindow.cpp.obj"
+},
+{
+  "directory": "D:/OneDrive/Program/Cpp/EasyDRM/build",
+  "command": "D:\\msys64\\clang64\\bin\\clang++.exe -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 @CMakeFiles/EasyDRM.dir/includes_CXX.rsp -g -std=gnu++17 -pthread -o CMakeFiles\\EasyDRM.dir\\src\\model.cpp.obj -c D:\\OneDrive\\Program\\Cpp\\EasyDRM\\src\\model.cpp",
+  "file": "D:/OneDrive/Program/Cpp/EasyDRM/src/model.cpp",
+  "output": "CMakeFiles/EasyDRM.dir/src/model.cpp.obj"
 }
 ]

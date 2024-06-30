@@ -1,3 +1,4 @@
 # Hashes of file build rules.
 a9cca5e35a708ad8734792b7fc5e9962 CMakeFiles/EasyDRM_autogen
 f9611eaf5eacde90b4081e11e1940d6c EasyDRM_autogen/timestamp
+508f5f125331bebd6e1ba8049b35347b MyProject_autogen/timestamp

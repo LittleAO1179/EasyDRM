@@ -7,7 +7,7 @@
 				{
 					"build" : ".",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-Debug-5fa4471ac3fb298ea9a0.json",
+					"jsonFile" : "directory-.-Debug-0db9d3c2b5be520dc96b.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16"
@@ -44,7 +44,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "EasyDRM::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-EasyDRM-Debug-82a15d66e862768fd7f9.json",
+					"jsonFile" : "target-EasyDRM-Debug-fe6523a061756d4c3dce.json",
 					"name" : "EasyDRM",
 					"projectIndex" : 0
 				},
