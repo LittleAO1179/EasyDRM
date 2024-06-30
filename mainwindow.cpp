@@ -16,6 +16,7 @@
 #include <QFileDialog>
 #include <qmessagebox>
 #include <QClipboard>
+#include <string>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -27,6 +28,8 @@ MainWindow::MainWindow(QWidget *parent)
     SetSaveFile(ui->pushButton_5, ui->lineEdit);
     SetGenerateKey(ui->pushButton_4, ui->lineEdit_2, ui->comboBox);
     SetClipBroad(ui->pushButton_3, ui->lineEdit_2);
+    SetEncrypt(ui->pushButton_2);
+    SetKeyWriteToFile(ui->pushButton_6);
 
     OnComboBoxValueChanged(ui->comboBox, ui->lineEdit_2, ui->label_7);
 }
@@ -41,6 +44,7 @@ void MainWindow::OnComboBoxValueChanged(QComboBox*& comboBox, QLineEdit*& lineEd
     connect(comboBox, &QComboBox::currentIndexChanged, [this, lineEdit, comboBox, label](){
         // 首先清空
         lineEdit->show();
+        lineEdit->setReadOnly(true);
         lineEdit->setText("");
         label->setText("生成的密钥");
         // RSA
@@ -48,6 +52,65 @@ void MainWindow::OnComboBoxValueChanged(QComboBox*& comboBox, QLineEdit*& lineEd
         {
             lineEdit->hide();
             label->setText("点击生成密钥自动保存公钥和私钥");
+        }
+    });
+}
+
+void MainWindow::SetKeyWriteToFile(QPushButton*& button)
+{
+    connect(button, &QPushButton::clicked, [this]()
+    {
+        QString filePath = QFileDialog::getSaveFileName(this, "保存到", "key.txt", "*.txt");
+        QByteArray byte = reinterpret_cast<char*>(Model::getInstance().GetKey().get());
+        if (!filePath.isEmpty() && Encrypt::WriteKeyToTxtFile(byte.toHex(), filePath))
+        {
+            QMessageBox::information(this, "保存成功", "密钥成功保存至" + filePath);
+        }
+        else 
+        {
+            QMessageBox::warning(this, "保存失败", "请确保正确生成密钥后保存。");
+        }
+    });
+}
+
+void MainWindow::SetEncrypt(QPushButton*& button)
+{
+    connect(button, &QPushButton::clicked, [this]()
+    {
+        if (ui->lineEdit_2->text().isEmpty())
+        {
+            QMessageBox::information(this, "注意", "密钥不能为空，请点击生成密钥！");
+            return;
+        }
+
+        if (Model::getInstance().GetSavePath().isEmpty() || Model::getInstance().GetChoosePath().isEmpty())
+        {
+            QMessageBox::information(this, "注意", "输入和输出路径不能为空！");
+            return;
+        }
+
+        bool flag = true;
+        switch (ui->comboBox->currentIndex()) 
+        {
+            case 0:
+            // AES
+            {
+                flag = Encrypt::EncryptByAESKey(Model::getInstance().GetChoosePath(), Model::getInstance().GetSavePath(), Model::getInstance().GetKey().get());
+                break;
+            }
+            case 1:
+            {
+                flag = Encrypt::EncryptByDESKey(Model::getInstance().GetChoosePath(), Model::getInstance().GetSavePath(), Model::getInstance().GetKey().get());
+                break;
+            }
+        }
+        if (flag)
+        {
+            QMessageBox::information(this, "加密成功","文件加密成功，加密文件存储在" + Model::getInstance().GetSavePath());
+        }
+        else
+        {
+            QMessageBox::warning(this, "加密失败", "加密失败，请重新尝试。");
         }
     });
 }

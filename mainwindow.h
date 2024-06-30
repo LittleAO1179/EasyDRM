@@ -28,6 +28,8 @@ public:
     void SetSaveFile(QPushButton*& button, QLineEdit*& lineEdit);
     void SetGenerateKey(QPushButton*& button, QLineEdit*& lineEdit, QComboBox*& comboBox);
     void SetClipBroad(QPushButton*& button, QLineEdit*& lineEdit);
+    void SetEncrypt(QPushButton*& button);
+    void SetKeyWriteToFile(QPushButton*& button);
 
 private:
     Ui::MainWindow *ui;
