@@ -22,6 +22,8 @@ public:
 
     void SetSelectFile(QPushButton*& button);
     void SetSaveFile(QPushButton*& button, QLineEdit*& lineEdit);
+    void SetGenerateKey(QPushButton*& button, QLineEdit*& lineEdit);
+    void SetClipBroad(QPushButton*& button, QLineEdit*& lineEdit);
 
 private:
     Ui::MainWindow *ui;

@@ -16,6 +16,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 # OpenSSL
 find_package(OpenSSL REQUIRED)
 message(STATUS "OpenSSL include dir: ${OPENSSL_INCLUDE_DIR}")
+include_directories("${OPENSSL_INCLUDE_DIR}")
 
 file(GLOB_RECURSE SRC_FILES "${PROJECT_SOURCE_DIR}/src/*.cpp")
 include_directories("${PROJECT_SOURCE_DIR}/src/")
@@ -57,7 +58,7 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(EasyDRM PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(EasyDRM PRIVATE Qt${QT_VERSION_MAJOR}::Widgets OpenSSL::Crypto)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

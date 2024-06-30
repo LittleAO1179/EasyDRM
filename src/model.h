@@ -1,5 +1,7 @@
 
+#include <cstddef>
 #include <qobject.h>
+#include <memory>
 
 class Model
 {
@@ -24,7 +26,14 @@ public:
     void SetChoosePath(const QString& path);
     const QString& GetChoosePath() const;
 
+    void SetKey(unsigned char* key, size_t keySize);
+    std::unique_ptr<unsigned char[]>& GetKey();
+    const size_t& GetKeySize() const;
+
 private:
     QString mSavePath;
     QString mChoosePath;
+
+    std::unique_ptr<unsigned char[]> mKey;
+    size_t mKeySize;
 };
