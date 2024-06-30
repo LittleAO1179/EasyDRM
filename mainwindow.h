@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <qcombobox.h>
+#include <qlabel.h>
 #include <qlineedit.h>
 #include <qobject.h>
 #include <qpushbutton.h>
@@ -20,9 +22,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void OnComboBoxValueChanged(QComboBox*& comboBox, QLineEdit*& lineEdit, QLabel*& label);
+
     void SetSelectFile(QPushButton*& button);
     void SetSaveFile(QPushButton*& button, QLineEdit*& lineEdit);
-    void SetGenerateKey(QPushButton*& button, QLineEdit*& lineEdit);
+    void SetGenerateKey(QPushButton*& button, QLineEdit*& lineEdit, QComboBox*& comboBox);
     void SetClipBroad(QPushButton*& button, QLineEdit*& lineEdit);
 
 private:
