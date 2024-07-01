@@ -1,8 +1,10 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "model.h"
+#include "licence_model.h"
 #include "encrypt_func.h"
 #include "decrypt_func.h"
+#include "src/licence_func.h"
 
 
 #include <qclipboard.h>
@@ -18,6 +20,7 @@
 #include <qmessagebox>
 #include <QClipboard>
 #include <qtabwidget.h>
+#include <vector>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -40,11 +43,35 @@ MainWindow::MainWindow(QWidget *parent)
 
     OnComboBoxValueChanged(ui->comboBox, ui->lineEdit_2, ui->label_7);
     OnTabValueChanged(ui->tabWidget);
+
+    // 许可证
+    connect(ui->pushButton_11, &QPushButton::clicked, this, &MainWindow::CreateLicence);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::CreateLicence()
+{
+    auto username = ui->lineEdit_5->text();
+    std::vector<AppDef::Permission> permissions;
+    if (ui->checkBox->isChecked()) permissions.push_back(AppDef::Permission::read);
+    if (ui->checkBox_2->isChecked()) permissions.push_back(AppDef::Permission::write);
+    if (ui->checkBox_3->isChecked()) permissions.push_back(AppDef::Permission::execute);
+    LicenceModel::getInstance().SetUserName(username);
+    LicenceModel::getInstance().SetPermissions(permissions);
+    
+    auto filepath = QFileDialog::getSaveFileName(this,"保存文件", "licence.txt","*.txt");
+    if (Licence::CreateLicence(filepath))
+    {
+        QMessageBox::information(this, "保存文件成功", "许可证已保存在" + filepath);
+    }
+    else 
+    {
+        QMessageBox::warning(this, "保存文件失败", "保存文件失败，请重新尝试。");
+    }
 }
 
 void MainWindow::OnTabValueChanged(QTabWidget*& tabWidget)

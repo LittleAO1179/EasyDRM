@@ -36,6 +36,8 @@ public:
     void SetDecrypt(QPushButton*& button);
     void SetKeyWriteToFile(QPushButton*& button);
 
+    void CreateLicence();
+
 private:
     Ui::MainWindow *ui;
 

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 project(EasyDRM VERSION 0.1 LANGUAGES CXX)
 
@@ -17,9 +17,14 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(OpenSSL REQUIRED)
 message(STATUS "OpenSSL include dir: ${OPENSSL_INCLUDE_DIR}")
 include_directories("${OPENSSL_INCLUDE_DIR}")
+# json
+find_package(jsoncpp REQUIRED)
 
 file(GLOB_RECURSE SRC_FILES "${PROJECT_SOURCE_DIR}/src/*.cpp")
+file(GLOB_RECURSE MODEL_FILES "${PROJECT_SOURCE_DIR}/src/model/*.cpp")
 include_directories("${PROJECT_SOURCE_DIR}/src/")
+include_directories("${PROJECT_SOURCE_DIR}/src/model/")
+
 set(TS_FILES EasyDRM_zh_CN.ts)
 
 set(PROJECT_SOURCES
@@ -28,6 +33,7 @@ set(PROJECT_SOURCES
         mainwindow.h
         mainwindow.ui
         ${SRC_FILES}
+        ${MODEL_FILES}
         ${TS_FILES}
 )
 
@@ -58,7 +64,9 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(EasyDRM PRIVATE Qt${QT_VERSION_MAJOR}::Widgets OpenSSL::Crypto)
+target_link_libraries(EasyDRM PRIVATE Qt${QT_VERSION_MAJOR}::Widgets 
+                      OpenSSL::Crypto
+                      jsoncpp_lib)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
