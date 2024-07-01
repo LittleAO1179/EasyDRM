@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowTitle("EasyDRM By LiMingyang");
     // 加密
     SetSelectFile(ui->pushButton, "ALL *.*");
-    SetSaveFile(ui->pushButton_5, ui->lineEdit, "*.easyDRM");
+    SetSaveFile(ui->pushButton_5, ui->lineEdit);
     SetGenerateKey(ui->pushButton_4, ui->lineEdit_2, ui->comboBox);
     SetClipBroad(ui->pushButton_3, ui->lineEdit_2);
     SetEncrypt(ui->pushButton_2);
@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 解密
     SetSelectFile(ui->pushButton_7, "*.easyDRM*");
-    SetSaveFile(ui->pushButton_8, ui->lineEdit_3, Model::getInstance().GetFileExtension());
+    SetSaveFile(ui->pushButton_8, ui->lineEdit_3, true);
 
     OnComboBoxValueChanged(ui->comboBox, ui->lineEdit_2, ui->label_7);
     OnTabValueChanged(ui->tabWidget);
@@ -118,11 +118,11 @@ void MainWindow::SetDecrypt(QPushButton*& button)
                 flag = Decrypt::DecryptByAESKey(Model::getInstance().GetChoosePath(), Model::getInstance().GetSavePath(), Model::getInstance().GetKey().get());
                 break;
             }
-            // case 1:
-            // {
-            //     flag = Encrypt::EncryptByDESKey(Model::getInstance().GetChoosePath(), Model::getInstance().GetSavePath(), Model::getInstance().GetKey().get());
-            //     break;
-            // }
+            case 1:
+            {
+                flag = Decrypt::DecryptByDESKey(Model::getInstance().GetChoosePath(), Model::getInstance().GetSavePath(), Model::getInstance().GetKey().get());
+                break;
+            }
         }
         if (flag)
         {
@@ -241,12 +241,27 @@ void MainWindow::SetSelectFile(QPushButton*& button, QString extension)
     });
 }
 
-void MainWindow::SetSaveFile(QPushButton*& button, QLineEdit*& lineEdit, QString extension)
+void MainWindow::SetSaveFile(QPushButton*& button, QLineEdit*& lineEdit)
 {
 
-    connect(button, &QPushButton::clicked, [this, lineEdit, extension]()
+    connect(button, &QPushButton::clicked, [this, lineEdit]()
     {
-        QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "", extension);
+        QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "", "*.easyDRM");
+        if (!fileName.isEmpty())
+        {
+            Model::getInstance().SetSavePath(fileName);
+            lineEdit->setText(fileName);
+        }
+    });
+}
+
+void MainWindow::SetSaveFile(QPushButton*& button, QLineEdit*& lineEdit, bool isEncrypt)
+{
+    connect(button, &QPushButton::clicked, [this, lineEdit]()
+    {
+        QString extension = Decrypt::GetFileExtension(Model::getInstance().GetChoosePath());
+        Model::getInstance().SetFileExtension(extension);
+        QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "", "*" + extension);
         if (!fileName.isEmpty())
         {
             Model::getInstance().SetSavePath(fileName);

@@ -28,7 +28,8 @@ public:
     void OnTabValueChanged(QTabWidget*& tabWidget);
 
     void SetSelectFile(QPushButton*& button, QString extension);
-    void SetSaveFile(QPushButton*& button, QLineEdit*& lineEdit, QString extension);
+    void SetSaveFile(QPushButton*& button, QLineEdit*& lineEdit, bool isDecrypt);
+    void SetSaveFile(QPushButton*& button, QLineEdit*& lineEdit);
     void SetGenerateKey(QPushButton*& button, QLineEdit*& lineEdit, QComboBox*& comboBox);
     void SetClipBroad(QPushButton*& button, QLineEdit*& lineEdit);
     void SetEncrypt(QPushButton*& button);

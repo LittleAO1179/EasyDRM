@@ -81,11 +81,21 @@ bool Encrypt::GenerateRSAKey(const QString& privateKeyPath, const QString& publi
 
 bool Encrypt::EncryptByAESKey(const QString& filePath, const QString& encryptPath, const unsigned char *key)
 {
-    unsigned char iv[16];
-    RAND_bytes(iv, sizeof(iv));
-
     std::ifstream ifs(filePath.toStdString(), std::ios::binary);
     std::ofstream ofs(encryptPath.toStdString(), std::ios::binary);
+
+    // 将文件后缀名写入文件末尾（固定8字节）
+    std::string file_extension = std::filesystem::path(filePath.toStdString()).extension().string();
+    if (file_extension.length() > 8) {
+        std::cerr << "File extension too long" << std::endl;
+        return false;
+    }
+    std::string padded_extension = file_extension;
+    padded_extension.resize(8, '\0'); // 填充或截断为8字节
+    ofs.write(padded_extension.c_str(), 8);
+
+    unsigned char iv[16];
+    RAND_bytes(iv, sizeof(iv));
 
     // 将IV写在文件的开头
     ofs.write(reinterpret_cast<char*>(iv), sizeof(iv));
@@ -126,16 +136,6 @@ bool Encrypt::EncryptByAESKey(const QString& filePath, const QString& encryptPat
 
     ofs.write(reinterpret_cast<char*>(cipher_buffer.data()), out_len);
 
-    // 将文件后缀名写入文件末尾（固定8字节）
-    std::string file_extension = std::filesystem::path(filePath.toStdString()).extension().string();
-    if (file_extension.length() > 8) {
-        std::cerr << "File extension too long" << std::endl;
-        return false;
-    }
-    std::string padded_extension = file_extension;
-    padded_extension.resize(8, '\0'); // 填充或截断为8字节
-    ofs.write(padded_extension.c_str(), 8);
-
     // 清理
     EVP_CIPHER_CTX_free(ctx);
     ifs.close();
@@ -146,11 +146,21 @@ bool Encrypt::EncryptByAESKey(const QString& filePath, const QString& encryptPat
 
 bool Encrypt::EncryptByDESKey(const QString& filePath, const QString& encryptPath, const unsigned char *key)
 {
-    unsigned char iv[8]; // DES-64 IV大小为8字节
-    RAND_bytes(iv, sizeof(iv));
-
     std::ifstream ifs(filePath.toStdString(), std::ios::binary);
     std::ofstream ofs(encryptPath.toStdString(), std::ios::binary);
+
+    // 将文件后缀名写入文件末尾（固定8字节）
+    std::string file_extension = std::filesystem::path(filePath.toStdString()).extension().string();
+    if (file_extension.length() > 8) {
+        std::cerr << "File extension too long" << std::endl;
+        return false;
+    }
+    std::string padded_extension = file_extension;
+    padded_extension.resize(8, '\0'); // 填充或截断为8字节
+    ofs.write(padded_extension.c_str(), 8);
+
+    unsigned char iv[8]; // DES-64 IV大小为8字节
+    RAND_bytes(iv, sizeof(iv));
 
     // 将IV写在文件的开头
     ofs.write(reinterpret_cast<char*>(iv), sizeof(iv));
@@ -190,16 +200,6 @@ bool Encrypt::EncryptByDESKey(const QString& filePath, const QString& encryptPat
     }
 
     ofs.write(reinterpret_cast<char*>(cipher_buffer.data()), out_len);
-
-    // 将文件后缀名写入文件末尾（固定8字节）
-    std::string file_extension = std::filesystem::path(filePath.toStdString()).extension().string();
-    if (file_extension.length() > 8) {
-        std::cerr << "File extension too long" << std::endl;
-        return false;
-    }
-    std::string padded_extension = file_extension;
-    padded_extension.resize(8, '\0'); // 填充或截断为8字节
-    ofs.write(padded_extension.c_str(), 8);
 
     // 清理
     EVP_CIPHER_CTX_free(ctx);
