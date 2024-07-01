@@ -46,11 +46,32 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 许可证
     connect(ui->pushButton_11, &QPushButton::clicked, this, &MainWindow::CreateLicence);
+    connect(ui->pushButton_10, &QPushButton::clicked, this, &MainWindow::ImportLicence);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::ImportLicence()
+{
+    QString filePath = QFileDialog::getOpenFileName(this, "导入许可证");
+    if (filePath.isEmpty()) return;
+    if (!Licence::ImportLicence(filePath))
+    {
+        QMessageBox::warning(this, "获取许可证失败", "获取许可证失败，请重新尝试。");
+    }
+    RefreshPermissions();
+}
+
+void MainWindow::RefreshPermissions()
+{
+    ui->lineEdit_5->setText(LicenceModel::getInstance().GetUserName());
+    auto permissions = LicenceModel::getInstance().GetPermissions();
+    ui->checkBox->setChecked(std::find(permissions.begin(), permissions.end(), AppDef::Permission::read) != permissions.end());
+    ui->checkBox_2->setChecked(std::find(permissions.begin(), permissions.end(), AppDef::Permission::write) != permissions.end());
+    ui->checkBox_3->setChecked(std::find(permissions.begin(), permissions.end(), AppDef::Permission::execute) != permissions.end());
 }
 
 void MainWindow::CreateLicence()
@@ -63,7 +84,7 @@ void MainWindow::CreateLicence()
     LicenceModel::getInstance().SetUserName(username);
     LicenceModel::getInstance().SetPermissions(permissions);
     
-    auto filepath = QFileDialog::getSaveFileName(this,"保存文件", "licence.txt","*.txt");
+    auto filepath = QFileDialog::getSaveFileName(this,"保存文件", "licence.txt", "*.txt");
     if (Licence::CreateLicence(filepath))
     {
         QMessageBox::information(this, "保存文件成功", "许可证已保存在" + filepath);

@@ -10,5 +10,6 @@ public:
     ~Licence() = default;
 
     static bool CreateLicence(QString filePath);
+    static bool ImportLicence(QString filePath);
 
 };

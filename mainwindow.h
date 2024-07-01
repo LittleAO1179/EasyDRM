@@ -37,7 +37,9 @@ public:
     void SetKeyWriteToFile(QPushButton*& button);
 
     void CreateLicence();
+    void ImportLicence();
 
+    void RefreshPermissions();
 private:
     Ui::MainWindow *ui;
 
