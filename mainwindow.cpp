@@ -51,6 +51,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButton_10, &QPushButton::clicked, this, &MainWindow::ImportLicence);
     connect(ui->pushButton_17, &QPushButton::clicked, this, &MainWindow::DoCalculateSHA);
     connect(ui->pushButton_14, &QPushButton::clicked, this, &MainWindow::CreateCertification);
+    connect(ui->pushButton_15, &QPushButton::clicked, this, &MainWindow::CreateSignature);
+    connect(ui->pushButton_16, &QPushButton::clicked, this, &MainWindow::VerifySignature);
     SetSelectFile(ui->pushButton_13, ui->lineEdit_7, "ALL File *.*");
     SetSelectFile(ui->pushButton_12, ui->lineEdit_6, std::bind(&LicenceModel::SetPrivateKeyPath, &LicenceModel::getInstance(), std::placeholders::_1), "*.*");
     SyncText(ui->lineEdit_6, std::bind(&LicenceModel::SetPrivateKeyPath, &LicenceModel::getInstance(), std::placeholders::_1));
@@ -61,6 +63,52 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::VerifySignature()
+{
+    QString error;
+    if (!QFileInfo(LicenceModel::getInstance().GetFilePath()).exists()) error = "请传入合适的文件！";
+    QString pubKeyPath = QFileDialog::getOpenFileName( this, "打开公钥", "public_key.pem", "*.pem");
+    QString signPath = QFileDialog::getOpenFileName( this, "打开签名", QFileInfo(LicenceModel::getInstance().GetFilePath()).fileName() +
+            ".sign", "*.sign");
+    switch (Licence::verifyData(pubKeyPath, LicenceModel::getInstance().GetFilePath(), signPath))
+    {
+    case 0:
+    {
+        QMessageBox::information(this, "验证失败", "文件与签名不符，请小心操作！");
+        break;
+    }
+    case 1:
+    {
+        QMessageBox::information(this, "验证成功", "文件与签名相符，该文件没有被篡改！");
+        break;
+    }
+    default:
+        QMessageBox::warning(this, "操作失败", "签名验证失败。" + error);
+        break;
+    }
+}
+
+void MainWindow::CreateSignature()
+{
+    QString error;
+    if (!QFileInfo(LicenceModel::getInstance().GetFilePath()).exists()) error = "请传入合适的文件！";
+    if (!QFileInfo(LicenceModel::getInstance().GetPrivateKeyPath()).exists()) error = "请传入合适的私钥！";
+    QString savePath = QFileDialog::getSaveFileName(
+        this, "签名保存位置",
+        QFileInfo(LicenceModel::getInstance().GetFilePath()).fileName() +
+            ".sign",
+        "*.sign");
+    if (error.isEmpty() &&
+        Licence::SignData(LicenceModel::getInstance().GetPrivateKeyPath(),
+                          LicenceModel::getInstance().GetFilePath(),
+                          savePath)) {
+        QMessageBox::information(this, "操作成功", "签名成功保存到" + savePath);
+    }
+    else {
+        QMessageBox::warning(this, "操作失败", "签名保存失败。" + error);
+    }
 }
 
 void MainWindow::CreateCertification()

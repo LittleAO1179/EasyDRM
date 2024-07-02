@@ -44,6 +44,8 @@ public:
     void ImportLicence();
     void DoCalculateSHA();
     void CreateCertification();
+    void CreateSignature();
+    void VerifySignature();
 
     void RefreshPermissions();
     void SyncText(QLineEdit*& lineEdit, std::function<void(const QString&)> setText);
