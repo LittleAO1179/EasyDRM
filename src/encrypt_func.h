@@ -14,6 +14,7 @@ public:
 
     static bool EncryptByAESKey(const QString& filePath, const QString& encryptPath, const unsigned char *key);
     static bool EncryptByDESKey(const QString& filePath, const QString& encryptPath, const unsigned char *key);
+    static bool EncryptByRSAPubKey(const QString& filePath, const QString& encryptPath, const QString& pubKeyPath);
 
     static bool WriteKeyToTxtFile(const QString& string, const QString& path);
 };

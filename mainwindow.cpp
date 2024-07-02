@@ -6,7 +6,6 @@
 #include "decrypt_func.h"
 #include "src/licence_func.h"
 
-
 #include <functional>
 #include <qclipboard.h>
 #include <qcombobox.h>
@@ -236,13 +235,13 @@ void MainWindow::SetDecrypt(QPushButton*& button)
 {
     connect(button, &QPushButton::clicked, [this]()
     {
-        if (ui->lineEdit_4->text().isEmpty())
+        if (ui->comboBox_2->currentIndex() != 2 && ui->lineEdit_4->text().isEmpty())
         {
             QMessageBox::information(this, "注意", "密钥不能为空，请填写密钥！");
             return;
         }
 
-        if (Model::getInstance().GetSavePath().isEmpty() || Model::getInstance().GetChoosePath().isEmpty())
+        if (ui->comboBox_2->currentIndex() != 2 && Model::getInstance().GetSavePath().isEmpty() || Model::getInstance().GetChoosePath().isEmpty())
         {
             QMessageBox::information(this, "注意", "输入和输出路径不能为空！");
             return;
@@ -253,7 +252,7 @@ void MainWindow::SetDecrypt(QPushButton*& button)
         Model::getInstance().SetKey(reinterpret_cast<unsigned char*>(qKey.data()), qKey.size());
 
         bool flag = true;
-        switch (ui->comboBox->currentIndex()) 
+        switch (ui->comboBox_2->currentIndex()) 
         {
             case 0:
             // AES
@@ -265,6 +264,10 @@ void MainWindow::SetDecrypt(QPushButton*& button)
             {
                 flag = Decrypt::DecryptByDESKey(Model::getInstance().GetChoosePath(), Model::getInstance().GetSavePath(), Model::getInstance().GetKey().get());
                 break;
+            }
+            case 2:
+            {
+                flag = Decrypt::DecryptByRESPrivKey(Model::getInstance().GetChoosePath(), Model::getInstance().GetSavePath(), QFileDialog::getOpenFileName(this, "打开私钥" , "private_key.pem",  "*.pem"));
             }
         }
         if (flag)
@@ -282,13 +285,13 @@ void MainWindow::SetEncrypt(QPushButton*& button)
 {
     connect(button, &QPushButton::clicked, [this]()
     {
-        if (ui->lineEdit_2->text().isEmpty())
+        if (ui->comboBox->currentIndex()!= 2 && ui->lineEdit_2->text().isEmpty())
         {
             QMessageBox::information(this, "注意", "密钥不能为空，请点击生成密钥！");
             return;
         }
 
-        if (Model::getInstance().GetSavePath().isEmpty() || Model::getInstance().GetChoosePath().isEmpty())
+        if (ui->comboBox->currentIndex() != 2 && Model::getInstance().GetSavePath().isEmpty() || Model::getInstance().GetChoosePath().isEmpty())
         {
             QMessageBox::information(this, "注意", "输入和输出路径不能为空！");
             return;
@@ -304,8 +307,19 @@ void MainWindow::SetEncrypt(QPushButton*& button)
                 break;
             }
             case 1:
+            //DES
             {
                 flag = Encrypt::EncryptByDESKey(Model::getInstance().GetChoosePath(), Model::getInstance().GetSavePath(), Model::getInstance().GetKey().get());
+                break;
+            }
+            case 2:
+            //RSA
+            {
+                flag = Encrypt::EncryptByRSAPubKey(
+                    Model::getInstance().GetChoosePath(),
+                    Model::getInstance().GetSavePath(),
+                    QFileDialog::getOpenFileName(this, "打开公钥", "public_key",
+                                                "*.pem"));
                 break;
             }
         }

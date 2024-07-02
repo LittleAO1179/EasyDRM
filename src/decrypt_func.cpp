@@ -7,9 +7,78 @@
 #include <openssl/aes.h>
 #include <openssl/crypto.h>
 #include <openssl/evp.h>
+#include <openssl/pem.h>
 #include <qobject.h>
 #include <qstringview.h>
 #include <vector>
+
+std::vector<unsigned char> decryptChunk(const unsigned char* chunk, int chunkSize, RSA* rsaPrivKey) {
+    std::vector<unsigned char> decryptedChunk(RSA_size(rsaPrivKey));
+    int result = RSA_private_decrypt(chunkSize, chunk, decryptedChunk.data(), rsaPrivKey, RSA_PKCS1_OAEP_PADDING);
+    if (result == -1) {
+        return std::vector<unsigned char>();
+    }
+    decryptedChunk.resize(result);
+    return decryptedChunk;
+}
+
+bool Decrypt::DecryptByRESPrivKey(const QString& encryptedFilePath, const QString& decryptPath, const QString& privateKeyPath)
+{
+    // 读取私钥
+    FILE* privKeyFile = fopen(privateKeyPath.toStdString().c_str(), "rb");
+    if (!privKeyFile) {
+        return false;
+    }
+    RSA* rsaPrivKey = PEM_read_RSAPrivateKey(privKeyFile, nullptr, nullptr, nullptr);
+    fclose(privKeyFile);
+
+    if (!rsaPrivKey) {
+        return false;
+    }
+
+    // 读取加密数据
+    std::ifstream file(encryptedFilePath.toStdString(), std::ios::binary);
+    if (!file) {
+        return false;
+    }
+    std::vector<unsigned char> data((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+    
+    // 删除前8字节的后缀名数据
+    if (data.size() < 8) {
+        RSA_free(rsaPrivKey);
+        return false;
+    }
+    data.erase(data.begin(), data.begin() + 8);
+
+    int rsaSize = RSA_size(rsaPrivKey);
+
+    std::vector<unsigned char> decryptedData;
+    decryptedData.reserve(data.size()); // 预留空间
+
+    // 分块解密数据
+    for (size_t i = 0; i < data.size(); i += rsaSize) {
+        size_t chunkSize = std::min(rsaSize, static_cast<int>(data.size() - i));
+        std::vector<unsigned char> decryptedChunk = decryptChunk(data.data() + i, chunkSize, rsaPrivKey);
+        if (decryptedChunk.empty())
+        {
+            return false;
+        }
+        decryptedData.insert(decryptedData.end(), decryptedChunk.begin(), decryptedChunk.end());
+    }
+
+    RSA_free(rsaPrivKey);
+
+    // 将解密的数据保存
+    std::ofstream ofs(decryptPath.toStdString(), std::ios::binary);
+    if (!ofs.is_open()) {
+        return false;
+    }
+    ofs.write(reinterpret_cast<const char*>(decryptedData.data()), decryptedData.size());
+    ofs.close();
+
+    return true;
+}
+
 
 QString Decrypt::GetFileExtension(const QString& encryptedFilePath)
 {
@@ -36,51 +105,48 @@ bool Decrypt::DecryptByDESKey(const QString& encryptPath, const QString& decrypt
         return false;
     }
 
-    // 读取文件末尾的后缀名（固定8字节）
-    ifs.seekg(-8, std::ios::end);
-    std::vector<char> file_extension(8);
-    ifs.read(file_extension.data(), 8);
-    ifs.seekg(0, std::ios::beg); // 重置到文件开头
-
-    // 读取IV（8字节）
+    std::string file_extension(8, '\0');
     unsigned char iv[8];
+
+    // 读取文件扩展名和IV
+    ifs.read(&file_extension[0], 8);
     ifs.read(reinterpret_cast<char*>(iv), sizeof(iv));
 
     EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
     EVP_DecryptInit_ex(ctx, EVP_des_cbc(), NULL, key, iv);
 
     const int buffer_size = 4096;
-    std::vector<unsigned char> buffer(buffer_size);
-    std::vector<unsigned char> plain_buffer(buffer_size + 8);
+    std::vector<char> buffer(buffer_size);
+    std::vector<char> plain_buffer(buffer_size);
     int out_len;
 
-    while (ifs.read(reinterpret_cast<char*>(buffer.data()), buffer.size())) {
-        if (EVP_DecryptUpdate(ctx, plain_buffer.data(), &out_len, buffer.data(), ifs.gcount()) != 1) {
+    while (ifs.read(buffer.data(), buffer.size())) {
+        if (EVP_DecryptUpdate(ctx, reinterpret_cast<unsigned char*>(plain_buffer.data()), &out_len, reinterpret_cast<const unsigned char*>(buffer.data()), ifs.gcount()) != 1) {
             std::cerr << "Error during decryption" << std::endl;
             EVP_CIPHER_CTX_free(ctx);
             return false;
         }
-        ofs.write(reinterpret_cast<char*>(plain_buffer.data()), out_len);
+        ofs.write(plain_buffer.data(), out_len);
     }
 
     // 处理最后一块数据
     if (ifs.gcount() > 0) {
-        if (EVP_DecryptUpdate(ctx, plain_buffer.data(), &out_len, buffer.data(), ifs.gcount()) != 1) {
+        if (EVP_DecryptUpdate(ctx, reinterpret_cast<unsigned char*>(plain_buffer.data()), &out_len, reinterpret_cast<const unsigned char*>(buffer.data()), ifs.gcount()) != 1) {
             std::cerr << "Error during decryption" << std::endl;
             EVP_CIPHER_CTX_free(ctx);
             return false;
         }
-        ofs.write(reinterpret_cast<char*>(plain_buffer.data()), out_len);
+        ofs.write(plain_buffer.data(), out_len);
     }
 
     // 完成解密过程
-    if (EVP_DecryptFinal_ex(ctx, plain_buffer.data(), &out_len) != 1) {
+    if (EVP_DecryptFinal_ex(ctx, reinterpret_cast<unsigned char*>(plain_buffer.data()), &out_len) != 1) {
         std::cerr << "Error finalizing decryption" << std::endl;
         EVP_CIPHER_CTX_free(ctx);
         return false;
     }
 
-    ofs.write(reinterpret_cast<char*>(plain_buffer.data()), out_len);
+    ofs.write(plain_buffer.data(), out_len);
 
     // 清理
     EVP_CIPHER_CTX_free(ctx);
