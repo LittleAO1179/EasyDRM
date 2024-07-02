@@ -7,10 +7,12 @@
 #include "src/licence_func.h"
 
 
+#include <functional>
 #include <qclipboard.h>
 #include <qcombobox.h>
 #include <qcontainerfwd.h>
 #include <qfiledialog.h>
+#include <qfileinfo.h>
 #include <qlabel.h>
 #include <qlineedit.h>
 #include <qmessagebox.h>
@@ -47,11 +49,56 @@ MainWindow::MainWindow(QWidget *parent)
     // 许可证
     connect(ui->pushButton_11, &QPushButton::clicked, this, &MainWindow::CreateLicence);
     connect(ui->pushButton_10, &QPushButton::clicked, this, &MainWindow::ImportLicence);
+    connect(ui->pushButton_17, &QPushButton::clicked, this, &MainWindow::DoCalculateSHA);
+    connect(ui->pushButton_14, &QPushButton::clicked, this, &MainWindow::CreateCertification);
+    SetSelectFile(ui->pushButton_13, ui->lineEdit_7, "ALL File *.*");
+    SetSelectFile(ui->pushButton_12, ui->lineEdit_6, std::bind(&LicenceModel::SetPrivateKeyPath, &LicenceModel::getInstance(), std::placeholders::_1), "*.*");
+    SyncText(ui->lineEdit_6, std::bind(&LicenceModel::SetPrivateKeyPath, &LicenceModel::getInstance(), std::placeholders::_1));
+    SyncText(ui->lineEdit_5, std::bind(&LicenceModel::SetUserName, &LicenceModel::getInstance(), std::placeholders::_1));
+    SyncText(ui->lineEdit_7, std::bind(&LicenceModel::SetFilePath, &LicenceModel::getInstance(), std::placeholders::_1));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::CreateCertification()
+{
+    QString filePath = QFileDialog::getSaveFileName(this, "将许可证保存到", "certificate.pem" ,"*.pem");
+    auto keyPath = LicenceModel::getInstance().GetPrivateKeyPath();
+
+    if (QFileInfo(keyPath).exists() && Licence::CreateCertification(keyPath, filePath))
+    {
+        QMessageBox::information(this, "创建成功", "许可证已经保存到：" + filePath); 
+    }
+    else 
+    {
+        QMessageBox::warning(this, "创建失败", "创建失败，请确保私钥路径正确重新尝试。");
+    }
+
+}
+
+void MainWindow::SyncText(QLineEdit*& lineEdit, std::function<void(const QString&)> setText)
+{
+    connect(lineEdit, &QLineEdit::textChanged, [this, lineEdit, setText](){
+        setText(lineEdit->text());
+    });
+}
+
+void MainWindow::DoCalculateSHA()
+{
+    QString error;
+    if (LicenceModel::getInstance().GetFilePath().isEmpty()) error += "输入路径为空！";
+    QString sha = Licence::CalculateSHA256(LicenceModel::getInstance().GetFilePath());
+    if (error.isEmpty())
+    {
+        QMessageBox::information(this, "计算成功", "文件的SHA-256为：" + sha); 
+    }
+    else 
+    {
+        QMessageBox::warning(this, "计算失败", error);
+    }
 }
 
 void MainWindow::ImportLicence()
@@ -76,7 +123,7 @@ void MainWindow::RefreshPermissions()
 
 void MainWindow::CreateLicence()
 {
-    auto username = ui->lineEdit_5->text();
+    auto username = LicenceModel::getInstance().GetUserName();
     std::vector<AppDef::Permission> permissions;
     if (ui->checkBox->isChecked()) permissions.push_back(AppDef::Permission::read);
     if (ui->checkBox_2->isChecked()) permissions.push_back(AppDef::Permission::write);
@@ -289,12 +336,43 @@ void MainWindow::SetSelectFile(QPushButton*& button, QString extension)
     });
 }
 
+void MainWindow::SetSelectFile(QPushButton*& button, QLineEdit*& lineEdit, std::function<void(const QString&)> setText, QString extension)
+{
+    connect(button, &QPushButton::clicked, [this, button, extension, lineEdit, setText]()
+    {
+        QString fileName = QFileDialog::getOpenFileName(this, tr("打开文件"), "", extension);
+        if (!fileName.isEmpty()) 
+        {
+            setText(fileName);
+            lineEdit->setText(fileName);
+        }
+    });
+}
+
+
+void MainWindow::SetSelectFile(QPushButton*& button, QLineEdit*& lineEdit, QString extension)
+{
+    connect(button, &QPushButton::clicked, [this, button, lineEdit, extension]()
+    {
+        QString fileName = QFileDialog::getOpenFileName(this, tr("打开文件"), "", extension);
+        if (!fileName.isEmpty()) 
+        {
+            Model::getInstance().SetChoosePath(fileName);
+            lineEdit->setText(fileName);
+        }
+    });
+}
+
 void MainWindow::SetSaveFile(QPushButton*& button, QLineEdit*& lineEdit)
 {
+    SetSaveFile(button, lineEdit, QString("*.easyDRM"));
+}
 
-    connect(button, &QPushButton::clicked, [this, lineEdit]()
+void MainWindow::SetSaveFile(QPushButton*& button, QLineEdit*& lineEdit, QString extension)
+{
+    connect(button, &QPushButton::clicked, [this, lineEdit, extension]()
     {
-        QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "", "*.easyDRM");
+        QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "", extension);
         if (!fileName.isEmpty())
         {
             Model::getInstance().SetSavePath(fileName);

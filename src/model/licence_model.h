@@ -25,6 +25,10 @@ public:
     const QString& GetUserName() const;
     void SetPermissions(const std::vector<AppDef::Permission>& permissions);
     const std::vector<AppDef::Permission>& GetPermissions() const;
+    void SetFilePath(const QString& filePath);
+    const QString& GetFilePath() const;
+    void SetPrivateKeyPath(const QString& filePath);
+    const QString& GetPrivateKeyPath() const;
 
 private:
     QString mUsername;

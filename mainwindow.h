@@ -9,6 +9,7 @@
 #include <qpushbutton.h>
 #include <qstyle.h>
 #include <qtabwidget.h>
+#include <functional>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -28,8 +29,11 @@ public:
     void OnTabValueChanged(QTabWidget*& tabWidget);
 
     void SetSelectFile(QPushButton*& button, QString extension);
+    void SetSelectFile(QPushButton*& button, QLineEdit*& lineEdit, QString extension);
+    void SetSelectFile(QPushButton*& button, QLineEdit*& lineEdit, std::function<void(const QString&)> setText, QString extension);
     void SetSaveFile(QPushButton*& button, QLineEdit*& lineEdit, bool isDecrypt);
     void SetSaveFile(QPushButton*& button, QLineEdit*& lineEdit);
+    void SetSaveFile(QPushButton*& button, QLineEdit*& lineEdit, QString extension);
     void SetGenerateKey(QPushButton*& button, QLineEdit*& lineEdit, QComboBox*& comboBox);
     void SetClipBroad(QPushButton*& button, QLineEdit*& lineEdit);
     void SetEncrypt(QPushButton*& button);
@@ -38,8 +42,11 @@ public:
 
     void CreateLicence();
     void ImportLicence();
+    void DoCalculateSHA();
+    void CreateCertification();
 
     void RefreshPermissions();
+    void SyncText(QLineEdit*& lineEdit, std::function<void(const QString&)> setText);
 private:
     Ui::MainWindow *ui;
 

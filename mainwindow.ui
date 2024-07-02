@@ -197,6 +197,13 @@
               </spacer>
              </item>
              <item>
+              <widget class="QPushButton" name="pushButton_17">
+               <property name="text">
+                <string>计算SHA256</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QPushButton" name="pushButton_15">
                <property name="text">
                 <string>为文件创建签名</string>
