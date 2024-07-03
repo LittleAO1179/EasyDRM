@@ -35,12 +35,13 @@ const QString& Model::GetChoosePath() const
 
 void Model::SetKey(unsigned char* key, size_t keySize)
 {
-    mKey = std::unique_ptr<unsigned char[]>(new unsigned char[keySize]);  // 分配内存
-    std::copy(key, key + keySize, mKey.get());
+    mKey.clear();
+    mKey.resize(keySize);
+    std::memcpy(mKey.data(), key, keySize);
     mKeySize = keySize;
 }
 
-std::unique_ptr<unsigned char[]>& Model::GetKey()
+std::vector<unsigned char>& Model::GetKey()
 {
     return mKey;
 }
@@ -64,7 +65,7 @@ void Model::clear()
 {
     mSavePath.clear();
     mChoosePath.clear();
-    mKey = std::unique_ptr<unsigned char[]>();
+    mKey.clear();
     mKeySize = 0;
     mFileExtension = "ALL File *.*";
 }

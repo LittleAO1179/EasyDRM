@@ -95,68 +95,7 @@ QString Decrypt::GetFileExtension(const QString& encryptedFilePath)
     return QString(file_extension);
 }
 
-bool Decrypt::DecryptByDESKey(const QString& encryptPath, const QString& decryptPath, const unsigned char *key)
-{
-    std::ifstream ifs(encryptPath.toStdString(), std::ios::binary);
-    std::ofstream ofs(decryptPath.toStdString(), std::ios::binary);
-
-    if (!ifs.is_open() || !ofs.is_open()) {
-        std::cerr << "Error opening file" << std::endl;
-        return false;
-    }
-
-    std::string file_extension(8, '\0');
-    unsigned char iv[8];
-
-    // 读取文件扩展名和IV
-    ifs.read(&file_extension[0], 8);
-    ifs.read(reinterpret_cast<char*>(iv), sizeof(iv));
-
-    EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
-    EVP_DecryptInit_ex(ctx, EVP_des_cbc(), NULL, key, iv);
-
-    const int buffer_size = 4096;
-    std::vector<char> buffer(buffer_size);
-    std::vector<char> plain_buffer(buffer_size);
-    int out_len;
-
-    while (ifs.read(buffer.data(), buffer.size())) {
-        if (EVP_DecryptUpdate(ctx, reinterpret_cast<unsigned char*>(plain_buffer.data()), &out_len, reinterpret_cast<const unsigned char*>(buffer.data()), ifs.gcount()) != 1) {
-            std::cerr << "Error during decryption" << std::endl;
-            EVP_CIPHER_CTX_free(ctx);
-            return false;
-        }
-        ofs.write(plain_buffer.data(), out_len);
-    }
-
-    // 处理最后一块数据
-    if (ifs.gcount() > 0) {
-        if (EVP_DecryptUpdate(ctx, reinterpret_cast<unsigned char*>(plain_buffer.data()), &out_len, reinterpret_cast<const unsigned char*>(buffer.data()), ifs.gcount()) != 1) {
-            std::cerr << "Error during decryption" << std::endl;
-            EVP_CIPHER_CTX_free(ctx);
-            return false;
-        }
-        ofs.write(plain_buffer.data(), out_len);
-    }
-
-    // 完成解密过程
-    if (EVP_DecryptFinal_ex(ctx, reinterpret_cast<unsigned char*>(plain_buffer.data()), &out_len) != 1) {
-        std::cerr << "Error finalizing decryption" << std::endl;
-        EVP_CIPHER_CTX_free(ctx);
-        return false;
-    }
-
-    ofs.write(plain_buffer.data(), out_len);
-
-    // 清理
-    EVP_CIPHER_CTX_free(ctx);
-    ifs.close();
-    ofs.close();
-
-    return true;
-}
-
-bool Decrypt::DecryptByAESKey(const QString& encryptedFilePath, const QString& decryptPath, const unsigned char *key)
+bool Decrypt::DecryptByAESKey(const QString& encryptedFilePath, const QString& decryptPath, std::vector<unsigned char> key)
 {
     unsigned char iv[16];
 
@@ -197,7 +136,14 @@ bool Decrypt::DecryptByAESKey(const QString& encryptedFilePath, const QString& d
     }
 
     EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
-    EVP_DecryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, key, iv);
+    if (key.size() == 32)
+    {
+        EVP_DecryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, key.data(), iv);
+    }
+    else if (key.size() == 16) 
+    {
+        EVP_DecryptInit_ex(ctx, EVP_aes_128_cbc(), NULL, key.data(), iv);
+    }
 
     const int buffer_size = 4096;
     std::vector<unsigned char> buffer(buffer_size);

@@ -4,6 +4,7 @@
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
+#include <openssl/provider.h>
 
 int main(int argc, char *argv[])
 {

@@ -5,6 +5,7 @@
 #include <fstream>
 #include <ios>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <cstddef>
 #include <openssl/asn1.h>
@@ -98,43 +99,30 @@ bool Encrypt::EncryptByRSAPubKey(const QString& filePath, const QString& encrypt
 }
 
 
-bool Encrypt::WriteKeyToTxtFile(const QString& string, const QString& path)
+bool Encrypt::WriteKeyToTxtFile(const std::vector<unsigned char>& string, const QString& path)
 {
-    if (string.isEmpty())
+    if (string.empty())
     {
         return false;
     }
     std::ofstream ofs(path.toStdString());
-    ofs << string.toStdString();
+    std::stringstream ss;
+    for (unsigned char byte : string) {
+        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte);
+    }
+    ofs << ss.str();
 
     ofs.close();
     return true;
 }
 
-std::unique_ptr<unsigned char[]>& Encrypt::GenerateAESKey(const int keySize)
+std::vector<unsigned char> Encrypt::GenerateAESKey(const int keySize)
 {
     unsigned char key[keySize]; 
     if (RAND_bytes(key, keySize) != 1) 
     {
 
     }
-
-    Model::getInstance().SetKey(key, keySize);
-    return Model::getInstance().GetKey();
-}
-
-std::unique_ptr<unsigned char[]>& Encrypt::GenerateDESKey()
-{
-    const size_t keySize = 8;
-    unsigned char key[keySize];
-
-    if (RAND_bytes(key, keySize) != 1)
-    {
-
-    }
-
-    // 奇偶校验修正
-    DES_set_odd_parity(&key);
 
     Model::getInstance().SetKey(key, keySize);
     return Model::getInstance().GetKey();
@@ -159,7 +147,7 @@ bool Encrypt::GenerateRSAKey(const QString& privateKeyPath, const QString& publi
     return true;
 }
 
-bool Encrypt::EncryptByAESKey(const QString& filePath, const QString& encryptPath, const unsigned char *key)
+bool Encrypt::EncryptByAESKey(const QString& filePath, const QString& encryptPath, std::vector<unsigned char> key)
 {
     std::ifstream ifs(filePath.toStdString(), std::ios::binary);
     std::ofstream ofs(encryptPath.toStdString(), std::ios::binary);
@@ -181,7 +169,15 @@ bool Encrypt::EncryptByAESKey(const QString& filePath, const QString& encryptPat
     ofs.write(reinterpret_cast<char*>(iv), sizeof(iv));
 
     EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
-    EVP_EncryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, key, iv);
+    if (key.size() == 32)
+    {
+        EVP_EncryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, key.data(), iv);
+    }
+    else if (key.size() == 16)
+    {
+        EVP_EncryptInit_ex(ctx, EVP_aes_128_cbc(), NULL, key.data(), iv);
+    }
+    
 
     const int buffer_size = 4096;
     std::vector<unsigned char> buffer(buffer_size);
@@ -215,77 +211,6 @@ bool Encrypt::EncryptByAESKey(const QString& filePath, const QString& encryptPat
     }
 
     ofs.write(reinterpret_cast<char*>(cipher_buffer.data()), out_len);
-
-    // 清理
-    EVP_CIPHER_CTX_free(ctx);
-    ifs.close();
-    ofs.close();
-
-    return true;
-}
-
-bool Encrypt::EncryptByDESKey(const QString& filePath, const QString& encryptPath, const unsigned char *key)
-{
-    std::ifstream ifs(filePath.toStdString(), std::ios::binary);
-    std::ofstream ofs(encryptPath.toStdString(), std::ios::binary);
-
-    if (!ifs.is_open() || !ofs.is_open()) {
-        std::cerr << "Error opening file" << std::endl;
-        return false;
-    }
-
-    std::string file_extension = std::filesystem::path(filePath.toStdString()).extension().string();
-    if (file_extension.length() > 8) {
-        std::cerr << "File extension too long" << std::endl;
-        return false;
-    }
-    std::string padded_extension = file_extension;
-    padded_extension.resize(8, '\0'); // 填充或截断为8字节
-
-    unsigned char iv[8]; // DES-64 IV大小为8字节
-    RAND_bytes(iv, sizeof(iv));
-
-    // 将文件扩展名写在文件的开头
-    ofs.write(padded_extension.c_str(), 8);
-
-    // 将IV写在文件的开头
-    ofs.write(reinterpret_cast<const char*>(iv), sizeof(iv));
-
-    EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
-    EVP_EncryptInit_ex(ctx, EVP_des_cbc(), NULL, key, iv);
-
-    const int buffer_size = 4096;
-    std::vector<char> buffer(buffer_size);
-    std::vector<char> cipher_buffer(buffer_size + 8);
-    int out_len;
-
-    while (ifs.read(buffer.data(), buffer.size())) {
-        if (EVP_EncryptUpdate(ctx, reinterpret_cast<unsigned char*>(cipher_buffer.data()), &out_len, reinterpret_cast<const unsigned char*>(buffer.data()), ifs.gcount()) != 1) {
-            std::cerr << "Error during encryption" << std::endl;
-            EVP_CIPHER_CTX_free(ctx);
-            return false;
-        }
-        ofs.write(cipher_buffer.data(), out_len);
-    }
-
-    // 处理最后一块数据
-    if (ifs.gcount() > 0) {
-        if (EVP_EncryptUpdate(ctx, reinterpret_cast<unsigned char*>(cipher_buffer.data()), &out_len, reinterpret_cast<const unsigned char*>(buffer.data()), ifs.gcount()) != 1) {
-            std::cerr << "Error during encryption" << std::endl;
-            EVP_CIPHER_CTX_free(ctx);
-            return false;
-        }
-        ofs.write(cipher_buffer.data(), out_len);
-    }
-
-    // 完成加密过程
-    if (EVP_EncryptFinal_ex(ctx, reinterpret_cast<unsigned char*>(cipher_buffer.data()), &out_len) != 1) {
-        std::cerr << "Error finalizing encryption" << std::endl;
-        EVP_CIPHER_CTX_free(ctx);
-        return false;
-    }
-
-    ofs.write(cipher_buffer.data(), out_len);
 
     // 清理
     EVP_CIPHER_CTX_free(ctx);

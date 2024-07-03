@@ -328,7 +328,7 @@
               </item>
               <item>
                <property name="text">
-                <string>DES-64</string>
+                <string>AES-128</string>
                </property>
               </item>
               <item>

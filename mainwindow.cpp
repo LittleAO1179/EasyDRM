@@ -219,8 +219,8 @@ void MainWindow::SetKeyWriteToFile(QPushButton*& button)
     connect(button, &QPushButton::clicked, [this]()
     {
         QString filePath = QFileDialog::getSaveFileName(this, "保存到", "key.txt", "*.txt");
-        QByteArray byte = reinterpret_cast<char*>(Model::getInstance().GetKey().get());
-        if (!filePath.isEmpty() && Encrypt::WriteKeyToTxtFile(byte.toHex(), filePath))
+        //QByteArray byte = reinterpret_cast<char*>(Model::getInstance().GetKey().data());
+        if (!filePath.isEmpty() && +Encrypt::WriteKeyToTxtFile(Model::getInstance().GetKey(), filePath))
         {
             QMessageBox::information(this, "保存成功", "密钥成功保存至" + filePath);
         }
@@ -257,12 +257,12 @@ void MainWindow::SetDecrypt(QPushButton*& button)
             case 0:
             // AES
             {
-                flag = Decrypt::DecryptByAESKey(Model::getInstance().GetChoosePath(), Model::getInstance().GetSavePath(), Model::getInstance().GetKey().get());
+                flag = Decrypt::DecryptByAESKey(Model::getInstance().GetChoosePath(), Model::getInstance().GetSavePath(), Model::getInstance().GetKey());
                 break;
             }
             case 1:
             {
-                flag = Decrypt::DecryptByDESKey(Model::getInstance().GetChoosePath(), Model::getInstance().GetSavePath(), Model::getInstance().GetKey().get());
+                flag = Decrypt::DecryptByAESKey(Model::getInstance().GetChoosePath(), Model::getInstance().GetSavePath(), Model::getInstance().GetKey());
                 break;
             }
             case 2:
@@ -303,13 +303,13 @@ void MainWindow::SetEncrypt(QPushButton*& button)
             case 0:
             // AES
             {
-                flag = Encrypt::EncryptByAESKey(Model::getInstance().GetChoosePath(), Model::getInstance().GetSavePath(), Model::getInstance().GetKey().get());
+                flag = Encrypt::EncryptByAESKey(Model::getInstance().GetChoosePath(), Model::getInstance().GetSavePath(), Model::getInstance().GetKey());
                 break;
             }
             case 1:
             //DES
             {
-                flag = Encrypt::EncryptByDESKey(Model::getInstance().GetChoosePath(), Model::getInstance().GetSavePath(), Model::getInstance().GetKey().get());
+                flag = Encrypt::EncryptByAESKey(Model::getInstance().GetChoosePath(), Model::getInstance().GetSavePath(), Model::getInstance().GetKey());
                 break;
             }
             case 2:
@@ -357,8 +357,8 @@ void MainWindow::SetGenerateKey(QPushButton*& button, QLineEdit*& lineEdit, QCom
             Encrypt::GenerateAESKey(32);
             break;
         case 1:
-            // DES
-            Encrypt::GenerateDESKey();
+            // RC4
+            Encrypt::GenerateAESKey(16);
             break;
         case 2:
             {
@@ -379,7 +379,7 @@ void MainWindow::SetGenerateKey(QPushButton*& button, QLineEdit*& lineEdit, QCom
         }
         auto& key = Model::getInstance().GetKey();
         auto& keySize = Model::getInstance().GetKeySize();
-        QByteArray byteArray(reinterpret_cast<char*>(key.get()), keySize);
+        QByteArray byteArray(reinterpret_cast<char*>(key.data()), keySize);
         QString hexString = byteArray.toHex();
         lineEdit->setText(hexString);
     });

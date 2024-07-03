@@ -29,7 +29,7 @@ public:
     const QString& GetChoosePath() const;
 
     void SetKey(unsigned char* key, size_t keySize);
-    std::unique_ptr<unsigned char[]>& GetKey();
+    std::vector<unsigned char>& GetKey();
     const size_t& GetKeySize() const;
 
     void SetFileExtension(const QString& extension);
@@ -40,6 +40,6 @@ private:
     QString mChoosePath;
     QString mFileExtension;
 
-    std::unique_ptr<unsigned char[]> mKey;
+    std::vector<unsigned char> mKey;
     size_t mKeySize;
 };
